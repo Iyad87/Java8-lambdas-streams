@@ -1,13 +1,14 @@
 package org.formacion;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.IntUnaryOperator;
 import java.util.function.LongBinaryOperator;
 import java.util.function.Predicate;
-import java.util.function.UnaryOperator;
 
 import org.junit.Test;
 
@@ -21,7 +22,7 @@ public class TestLambdas {
 	@Test
 	public void test_function() {
 		
-		IntUnaryOperator cuadrado = a -> a*a;
+		IntUnaryOperator cuadrado = (a) -> a*a;
 		
 		assertEquals(0, cuadrado.applyAsInt(0));
 		assertEquals(1, cuadrado.applyAsInt(1));
@@ -61,14 +62,13 @@ public class TestLambdas {
 		Persona personaNoPariente = new Persona ("nombre","otro","otro");
 		
 		// Cread una funcion que indique si el segundo apellido de una persona es null
-		Predicate<Persona> segundoApellidoEsNull = p -> p.getApellido2() == null;
+		Predicate<Persona> segundoApellidoNull = (p) -> p.getApellido2()==null;
 		
-		assertTrue( segundoApellidoEsNull.test(personaSinSegundoApellido));
-		assertFalse( segundoApellidoEsNull.test(personaConSegundoApellido));
+		assertTrue(segundoApellidoNull.test(personaSinSegundoApellido));
+		assertFalse(segundoApellidoNull.test(personaConSegundoApellido));
 		
 		// Una funcion que nos diga si dos personas son parientes: para nosotros parientes
 		// son personas con el mismo primer apellido
-		
 		BiPredicate<Persona,Persona> sonParientes = (p1,p2) -> p1.getApellido1().equals(p2.getApellido1());
 		
 		assertTrue(sonParientes.test(personaSinSegundoApellido, personaConSegundoApellido));
@@ -76,7 +76,6 @@ public class TestLambdas {
 		
 		// Una funcion que "enmascare" los datos de una persona: debe permutar los valores de sus
 		// y nombre
-		
 		Consumer<Persona> mask = p -> {
 			String tmp = p.getApellido1();
 			p.setApellido1(p.getApellido2());

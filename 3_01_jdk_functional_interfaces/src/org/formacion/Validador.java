@@ -22,20 +22,19 @@ import java.util.ArrayList;
 public class Validador <T> {
 
 	// falta indicar el tipo de List
-	List<Predicate<T>> validadores = new ArrayList<>();
+	List<Predicate<T>> validadores = new ArrayList<Predicate<T>>();
 	
-	public boolean valida(T valor) { // cambiar Object por el tipo adecuado
-	   // true si pasa todos los validadores, falso si no
-		for (Predicate<T> validador: validadores) {
+	public boolean valida(T valor) { 
+		for (Predicate<T> validador:validadores) {
 			if (!validador.test(valor)) {
 				return false;
 			}
 		}
+		
 		return true;
 	}
-	
-	// falta un metodo add que admite nuevas validaciones
-	public void add (Predicate<T> nuevo) {
-		validadores.add(nuevo);
+
+	public void add(Predicate<T> predicate) {
+		validadores.add(predicate);
 	}
 }
